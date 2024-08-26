@@ -15,12 +15,22 @@
         <div id="result"></div>
     </div>
     <script>
-        async function fetchTimestamp() {
-            const dateInput = document.getElementById('dateInput').value;
+async function fetchTimestamp() {
+        const dateInput = document.getElementById('dateInput').value;
+        try {
             const response = await fetch(`/api/${dateInput}`);
             const data = await response.json();
-            document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            // Display the result, checking for the presence of error
+            if (data.error) {
+                document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } else {
+                document.getElementById('result').innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('result').innerHTML = `<pre>{ "error": "Server Error" }</pre>`;
         }
+    }
     </script>
 </body>
 </html>
